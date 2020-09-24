@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            text-align: center;
+        }
+
+        button{
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Your Booking:</h1>
+
+    
+
+    <div id="main">
+
+    </div>
+
+    <button id="btn1">Earlier (-1 hr)</button>
+    <button id="btn2">Later (+1 hr)</button>
+
+    <br>
+    <a href="index.html">Back to restaurant mapper</a>
+
+    <script>
+        const main = document.querySelector('#main');
+        const btn1 = document.querySelector('#btn1');
+        const btn2 = document.querySelector('#btn2');
+
+        let urlString = window.location.href;
+        let url = new URL(urlString);
+        let urlValue = url.searchParams.get('val')
+
+        let timer = 1
+
+        btn1.onclick = ()=>{
+            timer -= 1;
+            bookedTime()
+        }
+
+        btn2.onclick = ()=>{
+            timer += 1;
+            bookedTime()
+        }
+
+        function bookedTime(){
+            let time = Date()
+            let timeNumber = time.match(/(\d[0-9]:)/)
+            timeNumber = Number(timeNumber[0].replace(/\d+:/, timeNumber[0].match(/\d+/)))
+
+            timeChecker = timeNumber
+
+            timeNumber = Number(timeNumber + timer)
+            console.log(timeChecker)
+
+            if(timeNumber > 23){
+                main.innerHTML = "That time is not available"
+            } else if(timeNumber < timeChecker){
+                main.innerHTML = "400 Bad request"
+            } else{
+                time = time.replace(/(\d[0-9]:)/, timeNumber + ":")
+        
+                main.innerHTML = `
+                    <h3>${urlValue}<h3>
+                    <p>Time booked: ${time}</p>
+                `
+            }
+    
+        }
+        bookedTime()
+
+    </script>
+</body>
+</html>
